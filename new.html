@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>나만의 포털 사이트</title>
+    <style>
+        /* --- 기본 스타일 --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo", sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+        }
+
+        /* --- 1. 헤더 (로고, 검색창 영역) --- */
+        header {
+            background-color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky; /* 헤더 고정 */
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            width: 1190px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #03C75A; /* 메인 색상 (네이버 그린) */
+            margin: 0;
+            font-size: 2.5rem;
+            width: 200px; /* 로고 영역 너비 */
+            text-align: left;
+        }
+
+        .search-bar {
+            flex: 1; /* 남는 공간을 모두 차지 */
+            display: flex;
+        }
+
+        .search-bar input[type="text"] {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #03C75A;
+            border-radius: 5px 0 0 5px; /* 왼쪽만 둥글게 */
+            border-right: none;
+        }
+
+        .search-bar button {
+            padding: 0 25px;
+            font-size: 1.1rem;
+            background-color: #03C75A;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0; /* 오른쪽만 둥글게 */
+            font-weight: bold;
+        }
+
+        /* --- 2. 메인 (2단 레이아웃) --- */
+        .container {
+            display: flex;
+            width: 1190px;
+            margin: 20px auto;
+        }
+
+        /* 2a. 메인 콘텐츠 (왼쪽) */
+        main {
+            flex: 2;
+            background-color: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        main h2 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /* 메인 뉴스 스타일 (수정됨) */
+        .top-news {
+            display: flex; /* 자식 요소를 가로로 배치 */
+            align-items: flex-start; /* 위쪽 정렬 */
+            gap: 20px; /* 이미지와 텍스트 사이 간격 */
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px; /* 기사 사이의 간격 추가 */
+        }
+        .top-news:last-of-type {
+            margin-bottom: 0; /* 마지막 기사는 아래 간격 없음 */
+        }
+        .top-news img {
+            width: 150px; /* 이미지 고정 너비 (예시) */
+            height: 100px; /* 이미지 고정 높이 (예시) */
+            object-fit: cover; /* 이미지가 잘리더라도 비율 유지하며 채움 */
+            border-radius: 5px;
+            flex-shrink: 0; /* 이미지가 줄어들지 않도록 고정 */
+        }
+        .top-news .news-content { /* 새로 추가될 뉴스 텍스트 컨테이너 */
+            flex-grow: 1; /* 남은 공간을 모두 차지 */
+        }
+        .top-news h3 {
+            font-size: 1.2rem; /* 이미지 옆이라 조금 작게 */
+            margin: 0 0 5px 0;
+            line-height: 1.4;
+        }
+        .top-news p {
+            color: #555;
+            font-size: 0.95rem; /* 이미지 옆이라 조금 작게 */
+            margin: 0;
+        }
+        /* 중요: a 태그의 기본 스타일은 유지하고 싶지만, 전체 박스에 링크를 걸기 위함 */
+        .top-news > a {
+            display: flex; /* flexbox의 자식으로 만들기 위해 flex 적용 */
+            align-items: flex-start;
+            gap: 20px;
+            color: inherit; /* 링크 색상 유지 */
+            text-decoration: none; /* 밑줄 제거 */
+            width: 100%; /* 부모 너비 전체 사용 */
+        }
+        .top-news > a:hover {
+            text-decoration: none;
+        }
+
+
+        /* 주제별 목록 스타일 */
+        .topic-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .topic-list li {
+            padding: 8px 0;
+            font-size: 1.1rem;
+            border-bottom: 1px dotted #ccc;
+        }
+        .topic-list li:last-child {
+            border-bottom: none;
+        }
+        .topic-list li span {
+            font-weight: bold;
+            color: #03C75A;
+            margin-right: 10px;
+        }
+
+        /* 2b. 사이드바 (오른쪽) */
+        aside {
+            flex: 1;
+            padding: 20px;
+            margin-left: 20px;
+        }
+        
+        .sidebar-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .sidebar-box h3 {
+            font-size: 1.2rem;
+            margin: 0 0 15px 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        /* 로그인 폼 */
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: calc(100% - 20px); /* padding 고려 */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #03C75A;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* 날씨 */
+        .weather {
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        .weather .temp {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #007be9;
+        }
+        .weather .desc {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        /* 쇼핑 */
+        .shopping-list li {
+            padding: 5px 0;
+        }
+        .shopping-list li a:hover {
+            color: #E8122A;
+        }
+
+        /* --- 3. 푸터 (하단 정보) --- */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 20px;
+            background-color: #fff;
+            color: #888;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <h1>My Portal</h1>
+            <div class="search-bar">
+                <input type="text" placeholder="관심있는 주제를 검색해 보세요.">
+                <button>검색</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <main>
+            <h2>부엉이 뉴스</h2>
+
+            <div class="top-news">
+                <a href="#">
+                    <img src="img02.jpg" alt="유신영 모임 불참 논란">
+                    <div class="news-content">
+                        <h3>유신영, 제마 마라톤 모임 불참 선언... "특정 여성 때문" 의혹</h3>
+                        <p>업계의 기대를 모았던 '우흥우흥포럼'에 유신영 씨의 마라톤 응원 불참이 확정되었습니다. 한 관계자는 유 씨가 모임의 다른 참석자인 한 여성과의 개인적 갈등으로 인해 이와 같은 결정을 내린 것으로 보인다고 전했습니다.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="top-news">
+                <a href="#">
+                    <img src="img03.png" alt="최온재 러닝 크루 복귀">
+                    <div class="news-content">
+                        <h3>최온재, '러빗 러닝 크루' 재가입 의사 밝혀... "과거 연인 문제, 이젠 괜찮아"</h3>
+                        <p>과거 크루 내 연인과의 불화로 '러빗 러닝 크루'를 탈퇴했던 최온재 씨가 최근 재가입 의사를 표명해 화제다. 최 씨는 "개인적인 감정은 모두 정리됐다"며 "다시 크루원들과 함께 달리고 싶다"고 심경을 밝혔다.</p>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="top-news">
+                <a href="#">
+                    <img src="img/img03.jpg" alt="최온재 러닝 크루 복귀">
+                    <div class="news-content">
+                        <h3>'5년 추격' 윈터 스토킹범, 벽제동 인근서 검거... 20대 남성 신상 공개"</h3>
+                        <p>에스파 윈터 씨를 5년간 스토킹한 20대 남성 A씨가 벽제동 인근 거주지에서 붙잡혔습니다. 경찰은 끈질긴 추격 끝에 A씨를 검거했으며, A씨는 데뷔 초부터 카리나 씨를 쫓아다닌 혐의를 받습니다. 경찰은 사안의 심각성을 고려해 A씨의 얼굴을 공개했습니다.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="top-news">
+                <a href="#">
+                    <img src="img/img04.jpg" alt="최온재 러닝 크루 복귀">
+                    <div class="news-content">
+                        <h3>'박건우, '모친 사망보험금 해외여행' 의혹 결국 '사실'로 확인... '패륜' 논란 격화"</h3>
+                        <p>박건우 씨의 '모친 사망보험금 해외여행' 의혹이 결국 사실로 드러나 큰 충격을 주고 있습니다. 우흥우흥포럼 소속 정운영 시사 평론가의 폭로가 진실로 밝혀진 것입니다. 박 씨가 모친상 직후 사망보험금 수령 시기와 맞물려 해외로 출국한 정황이 복수의 증거로 확인되자, 박 씨 측은 침묵으로 일관하고 있으며 대중의 비난이 쏟아지고 있습니다...</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="top-news">
+                <a href="#">
+                    <img src="img/img05.jpg" alt="최온재 러닝 크루 복귀">
+                    <div class="news-content">
+                        <h3>"연대 아래는 그저 인스타올리기용 친구" 연세대 신희진 망언 파문... 대학가 '발칵'"</h3>
+                        <p>연세대 재학생 신희진 씨가 "연세대 이하 대학생은 상종할 필요 없고, 인스타 보여주기용 존재일 뿐"이라는 충격적 발언을 해 온라인이 발칵 뒤집혔습니다. 익명 커뮤니티에서 시작된 이 '학벌 서열' 발언에 누리꾼들은 "역대급 망언", "엘리트 의식에 찌들었다"며 거센 비난을 퍼붓고 있습니다.....</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="top-news">
+                <a href="#">
+                    <img src="img/img06.jpg" alt="최온재 러닝 크루 복귀">
+                    <div class="news-content">
+                        <h3>"불화의 주범은 이순석"... 엄모씨와의 갈등, '남 탓' 일관 의혹'"</h3>
+                        <p>이순석 씨가 지인 '엄모씨'와의 갈등에서 핵심 원인 제공자였음에도 불구하고, 지속적으로 책임을 다른 이들에게 전가해왔다는 의혹이 제기되었습니다. '엄모씨'와의 문제 외에도, 주변인들의 사이를 이간질하려 한 정황이 최근 자료를 통해 드러났습니다. 이처럼 지인들 사이의 신뢰를 깨고 '남 탓'을 하는 이씨의 반복적인 행태가 '엄모씨'와의 갈등 역시 그가 주범이라는 주장에 힘을 싣고 있습니다..</p>
+                    </div>
+                </a>
+            </div>
+        
+            <hr>
+
+            <div class="topic-list">
+                <h2>오늘의 추천 콘텐츠</h2>
+                <ul>
+                    <li><a href="#"><span>IT</span> | 2026년 출시될 새로운 AI 스마트폰, 무엇이 달라지나?</a></li>
+                    <li><a href="#"><span>요리</span> | 백종원 대표가 추천하는 초간단 가을 제철 '꽃게탕' 레시피</a></li>
+                    <li><a href="#"><span>경제</span> | 美 연준 금리 동결... 국내 증시 및 부동산 시장 영향은?</a></li>
+                    <li><a href="#"><span>연예</span> | 화제의 드라마 '서울의 밤', 시청률 20% 돌파하며 인기 고공행진</a></li>
+                    <li><a href="#"><span>스포츠</span> | 김민재 선수, 챔피언스리그 8강전에서 '철벽 수비' 극찬</a></li>
+                </ul>
+            </div>
+        </main>
+
+        <aside>
+            <div class="sidebar-box login-form">
+                <h3>간편 로그인</h3>
+                <input type="text" placeholder="아이디">
+                <input type="password" placeholder="비밀번호">
+                <button>로그인</button>
+            </div>
+            
+            <div class="sidebar-box weather">
+                <h3>오늘의 날씨 (서울)</h3>
+                <div class="temp">15℃</div>
+                <div class="desc">☀️ 맑음 (어제보다 2℃ 높아요)</div>
+                <p style="font-size: 0.9rem; color: #777;">미세먼지: 좋음 / 강수 확률: 0%</p>
+            </div>
+
+            <div class="sidebar-box">
+                <h3>주목! 쇼핑 특가</h3>
+                <ul class="shopping-list">
+                    <li><a href="#">1. [오늘만] 고성능 무선 이어폰 50% 할인</a></li>
+                    <li><a href="#">2. 경량 패딩 조끼 1+1 이벤트</a></li>
+                    <li><a href="#">3. 당일 수확 산지직송 제철 사과 5kg</a></li>
+                    <li><a href="#">4. 인기 브랜드 운동화 F/W 신상 입고!</a></li>
+                </ul>
+            </div>
+        </aside>
+
+    </div>
+
+    <footer>
+        <p>My Portal 서비스 | 고객센터 | 공지사항</p>
+        <p>&copy; 2025 My Portal Corp. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
